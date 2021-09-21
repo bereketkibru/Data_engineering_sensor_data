@@ -5,7 +5,10 @@ __pycache__/
 
 # C extensions
 *.so
-
+# data
+I80_davis.txt
+sample.txt
+sample2.txt
 # Distribution / packaging
 .Python
 build/
