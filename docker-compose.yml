@@ -62,7 +62,7 @@ services:
       # DBT_DBT_SCHEMA: dbt
       # DBT_DBT_RAW_DATA_SCHEMA: dbt_raw_data
       # DBT_POSTGRES_HOST: postgres-dbt
-      DBT_MYSQL_PASSWORD: Beki22)^
+      DBT_MYSQL_PASSWORD: root
       DBT_MYSQL_USER: root
       DBT_MYSQL_DB: dbtdb
       DBT_MYSQL_SCHEMA: dbt

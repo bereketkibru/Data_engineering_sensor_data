@@ -44,5 +44,5 @@ class Create_DWH:
 if __name__ == "__main__":
 
   TABLE_NAME = "observation"
-  a = Create_DWH(host = "localhost", user = "root", passwd = "Beki22)^")
-  a.insertData(SENSOR_DATA, "localhost", "root", "Beki22)^", TABLE_NAME, "./data/sample2.txt" )
+  a = Create_DWH(host = "localhost", user = "root", passwd = "root")
+  a.insertData(SENSOR_DATA, "localhost", "root", "root", TABLE_NAME, "./data/sample2.txt" )
