@@ -1,12 +1,12 @@
-version: '3'
+version: "3"
 services:
   postgres-airflow:
     image: postgres
     environment:
       POSTGRES_PASSWORD: pssd
-      POSTGRES_USER : airflowuser
-      POSTGRES_DB : airflowdb
-      
+      POSTGRES_USER: airflowuser
+      POSTGRES_DB: airflowdb
+
       AIRFLOW_SCHEMA: airflow
     expose:
       - 5432
@@ -16,31 +16,18 @@ services:
       # - ./sample_data:/sample_data
 
   mysqldb:
-     image: mysql:5.7
-     environment:
-       MYSQL_ROOT_PASSWORD: root
-       MYSQL_DATABASE: dbtdb
-     container_name: mysql_container_test
-     ports:
-       - 3306:3306
-  # postgres-dbt:
-  #   image: postgres
-  #   environment:
-  #     POSTGRES_PASSWORD: pssd
-  #     POSTGRES_USER : dbtuser
-  #     POSTGRES_DB : dbtdb
-  #     DBT_SCHEMA: dbt
-  #     DBT_RAW_DATA_SCHEMA: dbt_raw_data
-  #   expose:
-  #     - 5432
-  #   restart: always
-  #   volumes:
-  #     - ./sample_data:/sample_data
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dbtdb
+    container_name: mysql_container_test
+    ports:
+      - 3306:3306
 
   airflow:
     build: .
     restart: always
-    environment: 
+    environment:
       DBT_PROFILES_DIR: /dbt
       AIRFLOW_HOME: /airflow
       AIRFLOW__CORE__DAGS_FOLDER: /airflow/dags
@@ -56,12 +43,6 @@ services:
       POSTGRES_DB: airflowdb
       # postgres-dbt connection details. Required for the inital loading of seed data
       # Credentials need to match with service postgres-dbt
-      # DBT_POSTGRES_PASSWORD: pssd
-      # DBT_POSTGRES_USER : dbtuser
-      # DBT_POSTGRES_DB : dbtdb
-      # DBT_DBT_SCHEMA: dbt
-      # DBT_DBT_RAW_DATA_SCHEMA: dbt_raw_data
-      # DBT_POSTGRES_HOST: postgres-dbt
       DBT_MYSQL_PASSWORD: root
       DBT_MYSQL_USER: root
       DBT_MYSQL_DB: dbtdb
@@ -71,13 +52,15 @@ services:
       MYSQL_PORT: 3306
     depends_on:
       - postgres-airflow
-      # - postgres-dbt
       - mysqldb
     ports:
       - 8000:8080
     volumes:
       - ./dbt:/dbt
+      
       - ./airflow:/airflow
+      - ./data:/data
+
 
   adminer:
     image: adminer
@@ -87,5 +70,3 @@ services:
     depends_on:
       - postgres-airflow
       - mysqldb
-      # - postgres-dbt
-
