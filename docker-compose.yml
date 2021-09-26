@@ -16,13 +16,19 @@ services:
       # - ./sample_data:/sample_data
 
   mysqldb:
-    image: mysql:5.7
+    image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: dbtdb
+      MYSQL_PORT_3306_TCP_PORT: 3306
     container_name: mysql_container_test
+    command: [ "--default-authentication-plugin=mysql_native_password" ]
     ports:
       - 3306:3306
+    volumes:
+      
+      - ./my.cnf:/etc/mysql/my.cnf  
+      - ./data:/var/lib/mysql-files/
 
   airflow:
     build: .
