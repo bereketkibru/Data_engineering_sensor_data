@@ -8,7 +8,11 @@
 
 with stations as (
 
+<<<<<<< HEAD
     select date, time, station_id,
+=======
+    select date_time, station_id,
+>>>>>>> db28b6bf1a5d477b3ab14fd50cdc66aed4b80d43
         
         {% for col in cols %}
             case
@@ -16,7 +20,11 @@ with stations as (
             end as {{col}}
             {% if not loop.last %},{% endif %}
         {% endfor %}
+<<<<<<< HEAD
     from foo.I80_sample
+=======
+    from dbtdb.I80Davis
+>>>>>>> db28b6bf1a5d477b3ab14fd50cdc66aed4b80d43
 
 )
 
