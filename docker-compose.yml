@@ -1,22 +1,12 @@
-version: '3'
-
-x-redash-service: &redash-service
-  image: redash/redash:latest
-  depends_on:
-  - postgres
-  - redis
-  env_file: redash.env
-  restart: always
-
-  
+version: "3"
 services:
   postgres-airflow:
     image: postgres
     environment:
       POSTGRES_PASSWORD: pssd
-      POSTGRES_USER : airflowuser
-      POSTGRES_DB : airflowdb
-      
+      POSTGRES_USER: airflowuser
+      POSTGRES_DB: airflowdb
+
       AIRFLOW_SCHEMA: airflow
     expose:
       - 5432
@@ -24,11 +14,7 @@ services:
     volumes:
       - ./scripts_postgres:/docker-entrypoint-initdb.d
       # - ./sample_data:/sample_data
-  postgres:
-    image: postgres
-    env_file: redash.env
-    restart: always
-  
+
   mysqldb:
     image: mysql
     environment:
@@ -41,14 +27,13 @@ services:
       - 3306:3306
     volumes:
       
-      - ./mysql.cnf:/etc/mysql/mysql.cnf  
       - ./my.cnf:/etc/mysql/my.cnf  
       - ./data:/var/lib/mysql-files/
 
   airflow:
     build: .
     restart: always
-    environment: 
+    environment:
       DBT_PROFILES_DIR: /dbt
       AIRFLOW_HOME: /airflow
       AIRFLOW__CORE__DAGS_FOLDER: /airflow/dags
@@ -65,57 +50,29 @@ services:
       # postgres-dbt connection details. Required for the inital loading of seed data
       # Credentials need to match with service postgres-dbt
       DBT_MYSQL_PASSWORD: root
-      DBT_MYSQL_USER : root
-      DBT_MYSQL_DB : dbtdb
-      DBT_DBT_SCHEMA: dbt
-      DBT_DBT_RAW_DATA_SCHEMA: dbt_raw_data
+      DBT_MYSQL_USER: root
+      DBT_MYSQL_DB: dbtdb
+      DBT_MYSQL_SCHEMA: dbt
+      DBT_MYSQL_RAW_DATA_SCHEMA: dbt_raw_data
       DBT_MYSQL_HOST: mysqldb
       MYSQL_PORT: 3306
     depends_on:
       - postgres-airflow
       - mysqldb
     ports:
-      - 8000:8080
+      - 8080:8080
     volumes:
       - ./dbt:/dbt
       
-      - ./data:/data
       - ./airflow:/airflow
+      - ./data:/data
+
 
   adminer:
-    image: dockette/adminer:dg
+    image: adminer
     restart: always
     ports:
       - 8080:80
     depends_on:
       - postgres-airflow
       - mysqldb
-  server:
-    <<: *redash-service
-    command: server
-    ports:
-      - 5000:5000
-    environment:
-      REDASH_WEB_WORKERS: 4
-  scheduler:
-    <<: *redash-service
-    command: scheduler
-    environment:
-      QUEUES: "celery"
-      WORKERS_COUNT: 1
-  scheduled_worker:
-    <<: *redash-service
-    command: worker
-    environment:
-      QUEUES: "scheduled_queries,schemas"
-      WORKERS_COUNT: 1
-  adhoc_worker:
-    <<: *redash-service
-    command: worker
-    environment:
-      QUEUES: "queries"
-      WORKERS_COUNT: 2
-  redis:
-    image: redis:latest
-    restart: always
-

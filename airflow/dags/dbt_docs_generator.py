@@ -15,34 +15,17 @@ default_args = {
 }
 
 dag = DAG(
-    'dbt_dag',
+    'dbt_docs_generator_dag',
     default_args=default_args,
     description='An Airflow DAG to invoke simple dbt commands',
     schedule_interval='@once',
 )
 
-check_directory = BashOperator(
-    task_id='bash_task', 
-    bash_command='echo pwd', 
+
+generate_docs = BashOperator(
+    task_id='generate_docs',
+    bash_command='cd ../../dbt && dbt docs generate',
     dag=dag
 )
 
-dbt_debug = BashOperator(
-    task_id='dbt_debug',
-    bash_command='cd ../../dbt && dbt debug',
-    dag=dag
-)
-
-dbt_run = BashOperator(
-    task_id='dbt_run',
-    bash_command='cd ../../dbt && dbt run',
-    dag=dag
-)
-
-dbt_test = BashOperator(
-    task_id='dbt_test',
-    bash_command='cd ../../dbt && dbt test',
-    dag=dag
-)
-
-check_directory >> dbt_debug >> dbt_run >> dbt_test
+generate_docs
