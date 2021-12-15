@@ -55,10 +55,10 @@ A fully dockerized using a docker-compose file ELT pipeline using MySQL, Airflow
 ### Built With
 
 Tech Stack used in this project
-* [MYSQL](https://getbootstrap.com)
-* [Apache Airflow](https://jquery.com)
-* [dbt](https://laravel.com)
-* [Redash](https://laravel.com)
+* [MYSQL](https://dev.mysql.com/doc/)
+* [Apache Airflow](https://airflow.apache.org/docs/apache-airflow/stable/)
+* [dbt](https://docs.getdbt.com/)
+* [Redash](https://redash.io/help/)
 
 
 <!-- GETTING STARTED -->
