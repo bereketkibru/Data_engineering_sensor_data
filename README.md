@@ -51,7 +51,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-A fully dockerized using a docker-compose file ELT pipeline using MySQL, Airflow, DBT and Redash. used MySQL for data storage. used DBT for data transforming and airflow for automation and orchestrations. A redash dasboard is built by connecting it to mysql databse.
+Using a docker-compose file, developed a completely dockerized ELT pipeline with MySQL for data storage, Airflow for automation and orchestration, DBT for data transformation, and a Redash dashboard connected to the MySQL database.
 ### Built With
 
 Tech Stack used in this project
